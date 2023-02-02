@@ -2,7 +2,7 @@
 const categoryTitle = document.querySelectorAll(".category-title");
 const allCategoryPosts = document.querySelectorAll(".all");
 const mainContainer = document.querySelector(".posts-main-container");
-const API_KEY = "pub_1640025e86a584d5f07ea140dd2ff55f7f343";
+const API_KEY = "pub_164004e12922bca57f5bc3b4114a7db58aeea";
 
 const spinner = `
 <div class="lds-roller">
@@ -51,8 +51,14 @@ function changeActivePosition(activeItem) {
 async function fetchNews(category) {
   try {
     const res = await fetch(
-      `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=en&category=${category}&country=ng`
+      `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=en&category=${category}&country=ng`,
+      {
+        mode: "no-cors",
+      }
     );
+    if (!res.ok) {
+      throw new Error("Request Limit reached!. Please try again Tommorow.");
+    }
     const data = await res.json();
     const results = data.results;
 
@@ -114,5 +120,8 @@ async function fetchNews(category) {
     );
   } catch (error) {
     console.log(error.message);
+    mainContainer.innerHTML = "";
+    const html = `<p>${error.message}</p>`;
+    mainContainer.insertAdjacentHTML("afterbegin", html);
   }
 }
