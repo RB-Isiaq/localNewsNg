@@ -51,10 +51,7 @@ function changeActivePosition(activeItem) {
 async function fetchNews(category) {
   try {
     const res = await fetch(
-      `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=en&category=${category}&country=ng`,
-      {
-        mode: "no-cors",
-      }
+      `https://newsdata.io/api/1/news?apikey=${API_KEY}&language=en&category=${category}&country=ng`
     );
     if (!res.ok) {
       throw new Error("Request Limit reached!. Please try again Tommorow.");
@@ -89,16 +86,16 @@ async function fetchNews(category) {
       }
       const html = `
       <div class="all ${category}">
-      <div class="post-img">
+        <div class="post-img">
             <img src="${image(res.image_url, category)}" alt="post" />
             <span class="category-name">${category}</span>
         </div>
 
         <div class="post-content">
-        <div class="post-content-top">
+         <div class="post-content-top">
           <span><i class="fas fa-calendar"></i>${todaysDate}</span>
           <span><img src='./images/nigeria-flag-icon.svg' class='logo' /> NIG</span>
-          </div>
+         </div>
           <h2>${res.title}</h2>
           <p>
           ${contents} ...
@@ -119,7 +116,6 @@ async function fetchNews(category) {
       mainContainer.insertAdjacentHTML("afterbegin", html)
     );
   } catch (error) {
-    console.log(error.message);
     mainContainer.innerHTML = "";
     const html = `<p>${error.message}</p>`;
     mainContainer.insertAdjacentHTML("afterbegin", html);
